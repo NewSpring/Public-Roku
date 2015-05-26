@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<categories>
+	<category title="Live" description="Sunday Service Live Stream" 
+		sd_img="http://" 
+		hd_img="http://">
+		<categoryLeaf 
+			title="NewSpring Live" 
+			description="" 
+			feed="http://dev.newspring.cc/feeds/roku-live"/>
+	</category>
+ </categories>
