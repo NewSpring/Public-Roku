@@ -1,5 +1,5 @@
 '**********************************************************
-'**  Video Player Example Application - Detail Screen 
+'**  Video Player Example Application - Detail Screen
 '**  November 2009
 '**  Copyright (c) 2009 Roku Inc. All Rights Reserved.
 '**********************************************************
@@ -7,12 +7,13 @@
 Function preShowDetailScreen(breadA=invalid, breadB=invalid) As Object
     port=CreateObject("roMessagePort")
     screen = CreateObject("roSpringboardScreen")
-    screen.SetDescriptionStyle("video") 
+    screen.SetDescriptionStyle("video")
     screen.SetMessagePort(port)
     if breadA<>invalid and breadB<>invalid then
         screen.SetBreadcrumbText(breadA, breadB)
     end if
 
+    screen.setAdDisplayMode("flat-square")
     return screen
 End Function
 
@@ -33,7 +34,7 @@ Function showDetailScreen(screen As Object, showList As Object, showIndex as Int
     'remote key id's for left/right navigation
     remoteKeyLeft  = 4
     remoteKeyRight = 5
- 
+
     while true
         msg = wait(0, screen.GetMessagePort())
 
@@ -41,7 +42,7 @@ Function showDetailScreen(screen As Object, showList As Object, showIndex as Int
             if msg.isScreenClosed()
                 print "Screen closed"
                 exit while
-            else if msg.isRemoteKeyPressed() 
+            else if msg.isRemoteKeyPressed()
                 print "Remote key pressed"
                 if msg.GetIndex() = remoteKeyLeft then
                         showIndex = getPrevShow(showList, showIndex)
@@ -54,7 +55,7 @@ Function showDetailScreen(screen As Object, showList As Object, showIndex as Int
                            refreshShowDetail(screen, showList, showIndex)
                         end if
                 endif
-            else if msg.isButtonPressed() 
+            else if msg.isButtonPressed()
                 print "ButtonPressed"
                 print "ButtonPressed"
                 if msg.GetIndex() = 1
@@ -89,7 +90,7 @@ End Function
 '** left/right on the springboard.  When the user is on the
 '** springboard, we generally let them press left/right arrow keys
 '** to navigate to the previous/next show in a circular manner.
-'** When leaving the screen, the should be positioned on the 
+'** When leaving the screen, the should be positioned on the
 '** corresponding item in the poster screen matching the current show
 '**************************************************************
 Function refreshShowDetail(screen As Object, showList As Object, showIndex as Integer) As Integer
@@ -104,8 +105,8 @@ Function refreshShowDetail(screen As Object, showList As Object, showIndex as In
 
     screen.ClearButtons()
     if regread(show.contentid) <> invalid and regread(show.contentid).toint() >=30 then
-    screen.AddButton(1, "Resume playing")    
-    screen.AddButton(2, "Play from beginning")    
+    screen.AddButton(1, "Resume playing")
+    screen.AddButton(2, "Play from beginning")
     else
     screen.addbutton(2,"Play")
     end if
@@ -115,8 +116,8 @@ Function refreshShowDetail(screen As Object, showList As Object, showIndex as In
 End Function
 
 '********************************************************
-'** Get the next item in the list and handle the wrap 
-'** around case to implement a circular list for left/right 
+'** Get the next item in the list and handle the wrap
+'** around case to implement a circular list for left/right
 '** navigation on the springboard screen
 '********************************************************
 Function getNextShow(showList As Object, showIndex As Integer) As Integer
@@ -124,35 +125,35 @@ Function getNextShow(showList As Object, showIndex As Integer) As Integer
 
     nextIndex = showIndex + 1
     if nextIndex >= showList.Count() or nextIndex < 0 then
-       nextIndex = 0 
+       nextIndex = 0
     end if
 
     show = showList[nextIndex]
-    if validateParam(show, "roAssociativeArray", "getNextShow") = false return -1 
+    if validateParam(show, "roAssociativeArray", "getNextShow") = false return -1
 
     return nextIndex
 End Function
 
 
 '********************************************************
-'** Get the previous item in the list and handle the wrap 
-'** around case to implement a circular list for left/right 
+'** Get the previous item in the list and handle the wrap
+'** around case to implement a circular list for left/right
 '** navigation on the springboard screen
 '********************************************************
 Function getPrevShow(showList As Object, showIndex As Integer) As Integer
-    if validateParam(showList, "roArray", "getPrevShow") = false return -1 
+    if validateParam(showList, "roArray", "getPrevShow") = false return -1
 
     prevIndex = showIndex - 1
     if prevIndex < 0 or prevIndex >= showList.Count() then
         if showList.Count() > 0 then
-            prevIndex = showList.Count() - 1 
+            prevIndex = showList.Count() - 1
         else
             return -1
         end if
     end if
 
     show = showList[prevIndex]
-    if validateParam(show, "roAssociativeArray", "getPrevShow") = false return -1 
+    if validateParam(show, "roAssociativeArray", "getPrevShow") = false return -1
 
     return prevIndex
 End Function

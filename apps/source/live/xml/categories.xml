@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <categories>
-	<category title="Live" description="Sunday Service Live Stream" 
-		sd_img="http://" 
+	<category title="Live" description="Sunday Service Live Stream"
+		sd_img="http://"
 		hd_img="http://">
-		<categoryLeaf 
-			title="NewSpring Live" 
-			description="" 
-			feed="http://dev.newspring.cc/feeds/roku-live"/>
+		<categoryLeaf
+			title="NewSpring Live"
+			description=""
+			feed="http://10.0.200.238/feeds/roku-live"/>
+	</category>
+	<category title="Current Series" description="Current Series at NewSpring"
+		sd_img="http://"
+		hd_img="http://">
+		<categoryLeaf
+			title="Current Series"
+			description=""
+			feed="http://10.0.200.238/feeds/roku-current"/>
+	</category>
+	<category title="Previous Series" description="Previous Series at NewSpring"
+		sd_img="http://"
+		hd_img="http://">
+		<categoryLeaf
+			title="Previous Series"
+			description=""
+			feed="http://10.0.200.238/feeds/roku-live"/>
 	</category>
  </categories>

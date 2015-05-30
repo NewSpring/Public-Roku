@@ -5,8 +5,8 @@
 '*****************************************************************
 
 '******************************************************
-'** Perform any startup/initialization stuff prior to 
-'** initially showing the screen.  
+'** Perform any startup/initialization stuff prior to
+'** initially showing the screen.
 '******************************************************
 Function preShowHomeScreen(breadA=invalid, breadB=invalid) As Object
 
@@ -21,14 +21,14 @@ Function preShowHomeScreen(breadA=invalid, breadB=invalid) As Object
     end if
 
     screen.SetListStyle("flat-category")
-    screen.setAdDisplayMode("scale-to-fit")
+    screen.setAdDisplayMode("flat-square")
     return screen
 
 End Function
 
 
 '******************************************************
-'** Display the home screen and wait for events from 
+'** Display the home screen and wait for events from
 '** the screen. The screen will show retreiving while
 '** we fetch and parse the feeds for the game posters
 '******************************************************
@@ -38,7 +38,7 @@ Function showHomeScreen(screen) As Integer
 
     initCategoryList()
     screen.SetContentList(m.Categories.Kids)
-    screen.SetFocusedListItem(3)
+'    screen.SetAdURL("http://ns.images.s3.amazonaws.com/newspring/roku/ad.png")
     screen.Show()
 
     while true
@@ -68,8 +68,8 @@ End Function
 
 '**********************************************************
 '** When a poster on the home screen is selected, we call
-'** this function passing an associative array with the 
-'** data for the selected show.  This data should be 
+'** this function passing an associative array with the
+'** data for the selected show.  This data should be
 '** sufficient for the show detail (springboard) to display
 '**********************************************************
 Function displayCategoryPosterScreen(category As Object) As Dynamic

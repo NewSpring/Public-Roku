@@ -5,8 +5,8 @@
 '******************************************************
 
 '******************************************************
-'** Perform any startup/initialization stuff prior to 
-'** initially showing the screen.  
+'** Perform any startup/initialization stuff prior to
+'** initially showing the screen.
 '******************************************************
 Function preShowPosterScreen(breadA=invalid, breadB=invalid) As Object
 
@@ -15,19 +15,21 @@ Function preShowPosterScreen(breadA=invalid, breadB=invalid) As Object
 
     port=CreateObject("roMessagePort")
     screen = CreateObject("roPosterScreen")
+
     screen.SetMessagePort(port)
     if breadA<>invalid and breadB<>invalid then
         screen.SetBreadcrumbText(breadA, breadB)
     end if
 
-    screen.SetListStyle("arced-landscape")
+    screen.SetListStyle("flat-category")
+    screen.setAdDisplayMode("flat-square")
     return screen
 
 End Function
 
 
 '******************************************************
-'** Display the home screen and wait for events from 
+'** Display the home screen and wait for events from
 '** the screen. The screen will show retreiving while
 '** we fetch and parse the feeds for the game posters
 '******************************************************
@@ -39,12 +41,12 @@ Function showPosterScreen(screen As Object, category As Object) As Integer
     m.curCategory = 0
     m.curShow     = 0
     temp=getcategorylist(category)
-    
-    
+
+
     if temp.count() > 1 then
     	screen.SetListNames(temp)
     	?temp.count();" categories"
-    	else 
+    	else
     	?"only ";temp.count();" category"
     end if
     screen.SetContentList(getShowsForCategoryItem(category, m.curCategory))
@@ -80,8 +82,8 @@ End Function
 
 '**********************************************************
 '** When a poster on the home screen is selected, we call
-'** this function passing an associative array with the 
-'** data for the selected show.  This data should be 
+'** this function passing an associative array with the
+'** data for the selected show.  This data should be
 '** sufficient for the show detail (springboard) to display
 '**********************************************************
 Function displayShowDetailScreen(category as Object, showIndex as Integer) As Integer
@@ -98,8 +100,8 @@ End Function
 
 '**************************************************************
 '** Given an roAssociativeArray representing a category node
-'** from the category feed tree, return an roArray containing 
-'** the names of all of the sub categories in the list. 
+'** from the category feed tree, return an roArray containing
+'** the names of all of the sub categories in the list.
 '***************************************************************
 Function getCategoryList(topCategory As Object) As Object
 
@@ -127,7 +129,7 @@ End Function
 '********************************************************************
 Function getShowsForCategoryItem(category As Object, item As Integer) As Object
 
-    if validateParam(category, "roAssociativeArray", "getCategoryList") = false return invalid 
+    if validateParam(category, "roAssociativeArray", "getCategoryList") = false return invalid
 
     conn = InitShowFeedConnection(category.kids[item])
     showList = conn.LoadShowFeed(conn)

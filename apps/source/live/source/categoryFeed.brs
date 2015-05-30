@@ -1,18 +1,18 @@
 '******************************************************
-'**  Video Player Example Application -- Category Feed 
+'**  Video Player Example Application -- Category Feed
 '**  November 2009
 '**  Copyright (c) 2009 Roku Inc. All Rights Reserved.
 '******************************************************
 
 '******************************************************
 ' Set up the category feed connection object
-' This feed provides details about top level categories 
+' This feed provides details about top level categories
 '******************************************************
 Function InitCategoryFeedConnection() As Object
 
     conn = CreateObject("roAssociativeArray")
 
-    conn.UrlPrefix   = "http://dev.newspring.cc/feeds"
+    conn.UrlPrefix   = "http://10.0.1.7/roku"
     conn.UrlCategoryFeed = conn.UrlPrefix + "/categories"
 
     conn.Timer = CreateObject("roTimespan")
@@ -93,7 +93,7 @@ Function load_category_feed(conn As Object) As Dynamic
 
     categories = xml.GetChildElements()
     print "number of categories: " + itostr(categories.Count())
-    for each e in categories 
+    for each e in categories
         o = ParseCategoryNode(e)
         if o <> invalid then
             topNode.AddKid(o)
@@ -127,7 +127,7 @@ Function ParseCategoryNode(xml As Object) As dynamic
     'PrintXML(xml, 5)
 
     'parse the curent node to determine the type. everything except
-    'special categories are considered normal, others have unique types 
+    'special categories are considered normal, others have unique types
     if xml.GetName() = "category" then
         print "category: " + xml@title + " | " + xml@description
         o.Type = "normal"
@@ -161,13 +161,13 @@ Function ParseCategoryNode(xml As Object) As dynamic
 
     'only continue processing if we are dealing with a known type
     'if new types are supported, make sure to add them to the list
-    'and parse them correctly further downstream in the parser 
+    'and parse them correctly further downstream in the parser
     while true
         if o.Type = "normal" exit while
         if o.Type = "special_category" exit while
         print "ParseCategoryNode unrecognized feed type"
         return invalid
-    end while 
+    end while
 
     'get the list of child nodes and recursed
     'through everything under the current node
@@ -234,7 +234,7 @@ End Function
 
 
 '*********************************************************
-'** Helper function for each node in the tree to add a 
+'** Helper function for each node in the tree to add a
 '** new node as a child to this node.
 '*********************************************************
 Sub cn_add_kid(kid As Object)
@@ -242,7 +242,7 @@ Sub cn_add_kid(kid As Object)
         print "skipping: attempt to add invalid kid failed"
         return
      endif
-    
+
     kid.Parent = m
     m.Kids.Push(kid)
 End Sub

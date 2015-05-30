@@ -1,5 +1,5 @@
 '**********************************************************
-'**  Video Player Example Application - Show Feed 
+'**  Video Player Example Application - Show Feed
 '**  November 2009
 '**  Copyright (c) 2009 Roku Inc. All Rights Reserved.
 '**********************************************************
@@ -10,15 +10,15 @@
 '** each subcategory (categoryLeaf) in the category
 '** category feed. Given a category leaf node for the
 '** desired show list, we'll hit the url and get the
-'** results.     
+'** results.
 '******************************************************
 
 Function InitShowFeedConnection(category As Object) As Object
 
-    if validateParam(category, "roAssociativeArray", "initShowFeedConnection") = false return invalid 
+    if validateParam(category, "roAssociativeArray", "initShowFeedConnection") = false return invalid
 
     conn = CreateObject("roAssociativeArray")
-    conn.UrlShowFeed  = category.feed 
+    conn.UrlShowFeed  = category.feed
 
     conn.Timer = CreateObject("roTimespan")
 
@@ -59,7 +59,7 @@ Function init_show_feed_item() As Object
     o.Synopsis         = ""
     o.Genre            = ""
     o.Runtime          = ""
-    o.StreamQualities  = CreateObject("roArray", 5, true) 
+    o.StreamQualities  = CreateObject("roArray", 5, true)
     o.StreamBitrates   = CreateObject("roArray", 5, true)
     o.StreamUrls       = CreateObject("roArray", 5, true)
 
@@ -68,16 +68,16 @@ End Function
 
 
 '*************************************************************
-'** Grab and load a show detail feed. The url we are fetching 
-'** is specified as part of the category provided during 
+'** Grab and load a show detail feed. The url we are fetching
+'** is specified as part of the category provided during
 '** initialization. This feed provides a list of all shows
 '** with details for the given category feed.
 '*********************************************************
 Function load_show_feed(conn As Object) As Dynamic
 
-    if validateParam(conn, "roAssociativeArray", "load_show_feed") = false return invalid 
+    if validateParam(conn, "roAssociativeArray", "load_show_feed") = false return invalid
 
-    print "url: " + conn.UrlShowFeed 
+    print "url: " + conn.UrlShowFeed
     http = NewHttp(conn.UrlShowFeed)
 
     m.Timer.Mark()
@@ -127,41 +127,46 @@ Function parse_show_feed(xml As Object, feed As Object) As Void
         item = init_show_feed_item()
 
         'fetch all values from the xml for the current show
-        item.hdImg            = validstr(curShow@hdImg) 
-        item.sdImg            = validstr(curShow@sdImg) 
-        item.ContentId        = validstr(curShow.contentId.GetText()) 
-        item.Title            = validstr(curShow.title.GetText()) 
-        item.Description      = validstr(curShow.description.GetText()) 
+        item.hdImg            = validstr(curShow@hdImg)
+        item.sdImg            = validstr(curShow@sdImg)
+        item.ContentId        = validstr(curShow.contentId.GetText())
+        item.Title            = validstr(curShow.title.GetText())
+        item.Description      = validstr(curShow.description.GetText())
         item.ContentType      = validstr(curShow.contentType.GetText())
         item.ContentQuality   = validstr(curShow.contentQuality.GetText())
         item.Synopsis         = validstr(curShow.synopsis.GetText())
         item.Genre            = validstr(curShow.genres.GetText())
+        item.ReleaseDate      = validstr(curShow.releaseDate.GetText())
         item.Runtime          = validstr(curShow.runtime.GetText())
+        item.Week             = validstr(curShow.week.GetText())
         item.HDBifUrl         = validstr(curShow.hdBifUrl.GetText())
         item.SDBifUrl         = validstr(curShow.sdBifUrl.GetText())
         item.StreamFormat = validstr(curShow.streamFormat.GetText())
         if item.StreamFormat = "" then  'set default streamFormat to mp4 if doesn't exist in xml
             item.StreamFormat = "mp4"
         endif
-        
+
         'map xml attributes into screen specific variables
-        item.ShortDescriptionLine1 = item.Title 
-        item.ShortDescriptionLine2 = item.Description
+        item.ShortDescriptionLine1 = item.Week
+        item.ShortDescriptionLine2 = item.Title
         item.HDPosterUrl           = item.hdImg
         item.SDPosterUrl           = item.sdImg
 
         item.Length = strtoi(item.Runtime)
         item.Categories = CreateObject("roArray", 5, true)
-        item.Categories.Push(item.Genre)
+        item.Categories.Push(item.Categories)
         item.Actors = CreateObject("roArray", 5, true)
         item.Actors.Push(item.Genre)
-        item.Description = item.Synopsis
-        
+
+        item.ReleaseDate = item.ReleaseDate
+
+        item.Description = item.Description
+
         'Set Default screen values for items not in feed
-        item.HDBranded = false
-        item.IsHD = false
-        item.StarRating = "90"
-        item.ContentType = "episode" 
+        item.HDBranded = true
+        item.IsHD = true
+        item.StarRating = "100"
+        item.ContentType = "episode"
 
         'media may be at multiple bitrates, so parse an build arrays
         for idx = 0 to 4
@@ -172,7 +177,7 @@ Function parse_show_feed(xml As Object, feed As Object) As Void
                 item.StreamUrls.Push(validstr(e.streamUrl.GetText()))
             endif
         next idx
-        
+
         showCount = showCount + 1
         feed.Push(item)
 
