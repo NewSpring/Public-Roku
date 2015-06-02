@@ -38,7 +38,6 @@ Function showHomeScreen(screen) As Integer
 
     initCategoryList()
     screen.SetContentList(m.Categories.Kids)
-'    screen.SetAdURL("http://ns.images.s3.amazonaws.com/newspring/roku/ad.png")
     screen.Show()
 
     while true

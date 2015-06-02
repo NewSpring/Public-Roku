@@ -58,7 +58,9 @@ Function init_show_feed_item() As Object
     o.ContentQuality   = ""
     o.Synopsis         = ""
     o.Genre            = ""
+    o.Live             = ""
     o.Runtime          = ""
+    o.ReleaseDate      = ""
     o.StreamQualities  = CreateObject("roArray", 5, true)
     o.StreamBitrates   = CreateObject("roArray", 5, true)
     o.StreamUrls       = CreateObject("roArray", 5, true)
@@ -135,10 +137,12 @@ Function parse_show_feed(xml As Object, feed As Object) As Void
         item.ContentType      = validstr(curShow.contentType.GetText())
         item.ContentQuality   = validstr(curShow.contentQuality.GetText())
         item.Synopsis         = validstr(curShow.synopsis.GetText())
+        item.Speakers         = validstr(curShow.speakers.GetText())
         item.Genre            = validstr(curShow.genres.GetText())
-        item.ReleaseDate      = validstr(curShow.releaseDate.GetText())
+        item.releaseDate      = validstr(curShow.releaseDate.GetText())
         item.Runtime          = validstr(curShow.runtime.GetText())
         item.Week             = validstr(curShow.week.GetText())
+        item.liveStream       = validstr(curShow.live.GetText())
         item.HDBifUrl         = validstr(curShow.hdBifUrl.GetText())
         item.SDBifUrl         = validstr(curShow.sdBifUrl.GetText())
         item.StreamFormat = validstr(curShow.streamFormat.GetText())
@@ -147,26 +151,38 @@ Function parse_show_feed(xml As Object, feed As Object) As Void
         endif
 
         'map xml attributes into screen specific variables
-        item.ShortDescriptionLine1 = item.Week
-        item.ShortDescriptionLine2 = item.Title
+
+        if item.Week = "" then
+          item.ShortDescriptionLine1 = item.Title
+
+          if item.Synopsis = "" then
+            item.ShortDescriptionLine2 = item.Description
+          else
+            item.ShortDescriptionLine2 = item.Synopsis
+          endif
+
+        else
+          item.ShortDescriptionLine1 = item.Week
+          item.ShortDescriptionLine2 = item.Title
+        endif
+
         item.HDPosterUrl           = item.hdImg
         item.SDPosterUrl           = item.sdImg
+        item.Live                  = item.liveStream
+
+        item.ReleaseDate           = item.releaseDate
 
         item.Length = strtoi(item.Runtime)
         item.Categories = CreateObject("roArray", 5, true)
         item.Categories.Push(item.Categories)
         item.Actors = CreateObject("roArray", 5, true)
-        item.Actors.Push(item.Genre)
-
-        item.ReleaseDate = item.ReleaseDate
+        item.Actors.Push(item.Speakers)
 
         item.Description = item.Description
 
         'Set Default screen values for items not in feed
         item.HDBranded = true
         item.IsHD = true
-        item.StarRating = "100"
-        item.ContentType = "episode"
 
         'media may be at multiple bitrates, so parse an build arrays
         for idx = 0 to 4
