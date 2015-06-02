@@ -34,6 +34,8 @@ End Function
 '******************************************************
 Function showHomeScreen(screen) As Integer
 
+    print "showHomeScreen"
+
     if validateParam(screen, "roPosterScreen", "showHomeScreen") = false return -1
 
     initCategoryList()

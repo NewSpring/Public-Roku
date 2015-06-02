@@ -23,6 +23,11 @@ Function preShowPosterScreen(breadA=invalid, breadB=invalid) As Object
 
     screen.SetListStyle("flat-category")
     screen.setAdDisplayMode("flat-square")
+
+    'see what category a user enters from the home screen
+    print "BREAD:"
+    print breadA
+    
     return screen
 
 End Function
@@ -35,6 +40,8 @@ End Function
 '******************************************************
 Function showPosterScreen(screen As Object, category As Object) As Integer
 
+    print "-> showPosterScreen"
+
     if validateParam(screen, "roPosterScreen", "showPosterScreen") = false return -1
     if validateParam(category, "roAssociativeArray", "showPosterScreen") = false return -1
 
@@ -42,6 +49,8 @@ Function showPosterScreen(screen As Object, category As Object) As Integer
     m.curShow     = 0
     temp=getcategorylist(category)
 
+    'prints out categories opened
+    'print temp
 
     if temp.count() > 1 then
     	screen.SetListNames(temp)
@@ -51,6 +60,7 @@ Function showPosterScreen(screen As Object, category As Object) As Integer
     end if
     screen.SetContentList(getShowsForCategoryItem(category, m.curCategory))
     screen.Show()
+
 
     while true
         msg = wait(0, screen.GetMessagePort())

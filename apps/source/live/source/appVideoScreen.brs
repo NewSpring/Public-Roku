@@ -15,6 +15,8 @@
 '***********************************************************  
 Function showVideoScreen(episode As Object)
 
+    print "showVideoScreen"
+
     if type(episode) <> "roAssociativeArray" then
         print "invalid data passed to showVideoScreen"
         return -1
@@ -30,6 +32,7 @@ Function showVideoScreen(episode As Object)
 
     'Uncomment his line to dump the contents of the episode to be played
     'PrintAA(episode)
+    print episode.shortdescriptionline2
 
     while true
         msg = wait(0, port)
