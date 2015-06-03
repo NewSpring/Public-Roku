@@ -15,7 +15,7 @@ Function preShowDetailScreen(breadA=invalid, breadB=invalid) As Object
 
     screen.setAdDisplayMode("flat-square")
     screen.SetStaticRatingEnabled(FALSE)
-    
+
     return screen
 
 End Function
@@ -28,6 +28,8 @@ End Function
 '** button and then we decide how best to handle the event.
 '***************************************************************
 Function showDetailScreen(screen As Object, showList As Object, showIndex as Integer) As Integer
+
+    print "showDetailScreen"
 
     if validateParam(screen, "roSpringboardScreen", "showDetailScreen") = false return -1
     if validateParam(showList, "roArray", "showDetailScreen") = false return -1

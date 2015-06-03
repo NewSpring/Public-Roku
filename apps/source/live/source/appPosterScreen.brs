@@ -36,6 +36,8 @@ End Function
 '******************************************************
 Function showPosterScreen(screen As Object, category As Object) As Integer
 
+    print "-> showPosterScreen"
+
     if validateParam(screen, "roPosterScreen", "showPosterScreen") = false return -1
     if validateParam(category, "roAssociativeArray", "showPosterScreen") = false return -1
 
@@ -43,6 +45,8 @@ Function showPosterScreen(screen As Object, category As Object) As Integer
     m.curShow     = 0
     temp=getcategorylist(category)
 
+    'prints out categories opened
+    'print temp
 
     if temp.count() > 1 then
     	screen.SetListNames(temp)
@@ -62,6 +66,7 @@ Function showPosterScreen(screen As Object, category As Object) As Integer
     globals.analytics.trackEvent("pageview", "", category.kids[m.curCategory].feed.Replace("http://10.0.1.7/", ""), "", pageTitle.Replace(" ", "%20"))
 
     screen.Show()
+
 
     while true
         msg = wait(0, screen.GetMessagePort())

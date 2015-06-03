@@ -15,6 +15,8 @@
 '***********************************************************  
 Function showVideoScreen(episode As Object)
 
+    print "showVideoScreen"
+
     if type(episode) <> "roAssociativeArray" then
         print "invalid data passed to showVideoScreen"
         return -1

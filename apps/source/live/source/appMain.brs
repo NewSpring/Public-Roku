@@ -5,6 +5,8 @@
 '********************************************************************
 
 Sub Main()
+    
+    print "Main"
 
     globals = getGlobalAA()
     
@@ -22,6 +24,10 @@ Sub Main()
         print "unexpected error in preShowHomeScreen"
         return
     end if
+
+    'app is done loading here, and home screen is about to show
+    UA_Init("UA-7130289-23")
+    UA_trackEvent("App","Load","","")
 
     'set to go, time to get started
     showHomeScreen(screen)
