@@ -5,19 +5,17 @@
 '********************************************************************
 
 Sub Main()
-    
+
     print "Main"
 
     globals = getGlobalAA()
-    
+
     ' set some analytics
     globals.analytics = Analytics()
-    
-    visitorId = GetRandomInt(10)
-    
+
     'initialize theme attributes like titles, logos and overhang color
     initTheme()
-    
+
     'prepare the screen for display and get ready to begin
     screen=preShowHomeScreen("", "")
     if screen=invalid then
@@ -26,8 +24,6 @@ Sub Main()
     end if
 
     'app is done loading here, and home screen is about to show
-    UA_Init("UA-7130289-23")
-    UA_trackEvent("App","Load","","")
 
     'set to go, time to get started
     showHomeScreen(screen)
@@ -99,13 +95,13 @@ Sub initTheme()
 
     theme.GridScreenFocusBorderHD       = "pkg:/images/GridScreenFocusBorderHD.png"
     theme.GridScreenFocusBorderSD       = "pkg:/images/GridScreenFocusBorderHD.png"
-    
+
     ' Light Up Colfax
-    
+
     ' fontReg = CreateObject("roFontRegistry")
     '   fontReg.Register("https://d3n6tjerleuu41.cloudfront.net/fonts/colfax/medium.eot")
     '   font = fontReg.Get("Colfax Medium",28,50,true)
-      
+
     '   text = {
     '        Text: "test",
     '        TextAttrs:{Color:"#303030", Font:font,

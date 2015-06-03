@@ -12,7 +12,7 @@ Function InitCategoryFeedConnection() As Object
 
     conn = CreateObject("roAssociativeArray")
 
-    conn.UrlPrefix   = "http://10.0.1.7/roku"
+    conn.UrlPrefix   = "http://10.0.200.114/roku"
     conn.UrlCategoryFeed = conn.UrlPrefix + "/categories"
 
     conn.Timer = CreateObject("roTimespan")

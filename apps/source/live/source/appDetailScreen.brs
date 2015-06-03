@@ -116,16 +116,16 @@ Function refreshShowDetail(screen As Object, showList As Object, showIndex as In
     screen.addbutton(2,"Play")
     end if
     screen.SetContent(show)
-    
+
     globals = getGlobalAA()
-    
+
     ' set some analytics
     globals.analytics = Analytics()
-    
+
     showTitle = show.Series + " - " + show.Title
-    
-    globals.analytics.trackEvent("pageview", "", show.RelativeUrl, "", showTitle.Replace(" ", "%20"))
-    
+
+    globals.analytics.trackEvent("pageview", show.RelativeUrl, showTitle.Replace(" ", "%20"))
+
     screen.Show()
 
 End Function

@@ -22,13 +22,13 @@ Function preShowHomeScreen(breadA=invalid, breadB=invalid) As Object
 
     screen.SetListStyle("flat-category")
     screen.setAdDisplayMode("flat-square")
-    
+
     ' set some analytics
     globals = getGlobalAA()
     globals.analytics = Analytics()
-    
+
     globals.analytics.startup()
-    
+
     return screen
 
 End Function

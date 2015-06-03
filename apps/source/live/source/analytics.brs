@@ -1,11 +1,10 @@
-<<<<<<< HEAD
 '
 ' Analytics module based on code from the Plex Roku client.
 '
 ' Original code: https://github.com/plexinc/roku-client-public/blob/master/Plex/source/Analytics.brs
 ' License to use explicitly granted: https://github.com/plexinc/roku-client-public/issues/233#issuecomment-15557688
 ' The Plex code was itself based on: http://bloggingwordpress.com/2012/04/google-analytics-for-roku-developers/
-' Original licenses follows: 
+' Original licenses follows:
 '
 
 REM *****************************************************
@@ -32,7 +31,7 @@ function visitorId() as String
 
     serialNumber = GetDeviceESN()
     rokuId = Right(serialNumber, 6)
-    
+
     return rokuId
 
 end function
@@ -48,7 +47,7 @@ function Analytics() as Object
     this.numWatched = 0
     this.numFinished = 0
     this.baseUrl = ""
-    
+
     this.sessionTimer = createObject("roTimespan")
 
     this.startup = Analytics_startup
@@ -67,7 +66,7 @@ function Analytics() as Object
     this.baseUrl = this.baseUrl + "&tid=" + this.account
     this.baseUrl = this.baseUrl + "&cid=" + visitorId()
     this.baseUrl = this.baseUrl + "&dr=roku"
-    
+
     ' this.baseUrl = this.baseUrl + "&utmsr=" + screenSize.w.toStr() + "x" + screenSize.h.toStr()
     ' this.baseUrl = this.baseUrl + "&utmsc=24-bit"
     ' this.baseUrl = this.baseUrl + "&utmul=" + device.getCurrentLocale()
@@ -83,49 +82,40 @@ function Analytics() as Object
     ' this.baseUrl = this.baseUrl + "%3B%2B__utmb%3D" + ".0.10." + "000"
     ' sthis.baseUrl = this.baseUrl + "%3B%2B__utmc%3D" + ".0.10." + "000"
 
-    return this 
+    return this
 
 end function
 
-function GetRandomInt(length As Integer) As String
-    hexChars = "0123456789"
-    hexString = ""
-    for i = 1 to length
-        hexString = hexString + hexChars.Mid(Rnd(16) - 1, 1)
-    next
-    return hexString
-end function
-
-function Analytics_trackEvent(category, action, label, value, title)
+function Analytics_trackEvent(hitType, documentLocation, pageTitle)
 
     this = m
 
-    if action = "Start" or action = "Continue" then
-        this.numWatched = this.numWatched + 1
-    end if
+    ' if action = "Start" or action = "Continue" then
+    '     this.numWatched = this.numWatched + 1
+    ' end if
 
-    if action = "Finish" then
-        this.numFinished = this.numFinished + 1
-    end if
+    ' if action = "Finish" then
+    '     this.numFinished = this.numFinished + 1
+    ' end if
 
-    RegWrite("sessionDuration", this.sessionTimer.TotalSeconds().toStr(), "analytics")
-    RegWrite("sessionNumWatched", this.numWatched.toStr(), "analytics")
-    RegWrite("sessionNumFinished", this.numFinished.toStr(), "analytics")
+    ' RegWrite("sessionDuration", this.sessionTimer.TotalSeconds().toStr(), "analytics")
+    ' RegWrite("sessionNumWatched", this.numWatched.toStr(), "analytics")
+    ' RegWrite("sessionNumFinished", this.numFinished.toStr(), "analytics")
 
-    this.numEvents = this.numEvents + 1
+    ' this.numEvents = this.numEvents + 1
 
     url = this.baseUrl
     ' url = url + "&utms=" + this.numEvents.toStr()
     ' url = url + "&utmn=" + this._random(1000000000, 9999999999).toStr()
     ' url = url + "&utmac=" + this.account
     ' url = url + "&utmt=event"
-    url = url + "&t=" + category
-    url = url + "&dp=" + label
-    url = url + "&dt=" + title
+    url = url + "&t=" + hitType
+    url = url + "&dl=" + documentLocation.Replace(":", "%3A").Replace("/", "%2F")
+    url = url + "&dt=" + pageTitle
     ' url = url + "&ec=" + eventCategory
     ' url = url + "&ea=" + eventAction
     ' url = url + "&et=" + eventLabel
-    
+
 
     httpGetWithRetry(url, 2000, 0)
 
@@ -134,11 +124,15 @@ end function
 ' Do initial analytics reporting
 function Analytics_startup()
 
-    this = m 
-    
+    this = m
+
     device = createObject("roDeviceInfo")
 
-    this.trackEvent("pageview", "Startup", "roku", "", "Roku%20Homescreen")
+    ' currentUrl = GetUrl()
+    ' print currentUrl
+    ' print HttpEncode(currentUrl)
+
+    this.trackEvent("pageview", "%2F", "Roku%20Homescreen")
 
 end function
 
@@ -151,19 +145,19 @@ function Analytics_shutdown()
 
 end function
 
-' Format event for request string 
-Function _Analytics_formatEvent(category, action, label, value) As String
+' Format event for request string
+Function _Analytics_formatEvent(hitType, documentLocation, pageTitle) As String
 
     xfer = createObject("roUrlTransfer")
 
-    event = "5(" + xfer.Escape(category) + "*" + xfer.Escape(action)
-    
+    event = "5(" + xfer.Escape(hitType) + "*"
+
     if label <> invalid then
-        event = event + "*" + xfer.Escape(label)
+        event = event + "*" + xfer.Escape(documentLocation)
     end if
-    
+
     if value <> invalid then
-        event = event + ")(" + value
+        event = event + ")(" + pageTitle
     end if
 
     event = event + ")"
