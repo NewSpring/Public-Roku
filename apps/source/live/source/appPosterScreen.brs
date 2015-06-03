@@ -59,11 +59,11 @@ Function showPosterScreen(screen As Object, category As Object) As Integer
     globals = getGlobalAA()
 
     ' set some analytics
-    globals.analytics = Analytics()
+    ' globals.analytics = Analytics()
 
-    pageTitle = category.Title + " - " + category.kids[m.curCategory].Title
+    ' pageTitle = category.Title + " - " + category.kids[m.curCategory].Title
 
-    globals.analytics.trackEvent("pageview", category.kids[m.curCategory].relativeUrl, pageTitle.Replace(" ", "%20"))
+    ' globals.analytics.trackEvent("pageview", category.kids[m.curCategory].relativeUrl, pageTitle.Replace(" ", "%20"))
 
     screen.Show()
 

@@ -24,10 +24,10 @@ Function preShowHomeScreen(breadA=invalid, breadB=invalid) As Object
     screen.setAdDisplayMode("flat-square")
 
     ' set some analytics
-    globals = getGlobalAA()
-    globals.analytics = Analytics()
+    ' globals = getGlobalAA()
+    ' globals.analytics = Analytics()
 
-    globals.analytics.startup()
+    ' globals.analytics.startup()
 
     return screen
 

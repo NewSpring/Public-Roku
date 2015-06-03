@@ -36,13 +36,13 @@ Function showVideoScreen(episode As Object)
     globals = getGlobalAA()
 
     ' set some analytics
-    globals.analytics = Analytics()
+    ' globals.analytics = Analytics()
 
-    episodeUrl   = episode.RelativeUrl + "/watching"
+    ' episodeUrl   = episode.RelativeUrl + "/watching"
 
-    episodeTitle = "WATCHING %7C " + episode.Series + " - " + episode.Title
+    ' episodeTitle = "WATCHING %7C " + episode.Series + " - " + episode.Title
 
-    globals.analytics.trackEvent("pageview", episodeUrl, episodeTitle.Replace(" ", "%20"))
+    ' globals.analytics.trackEvent("pageview", episodeUrl, episodeTitle.Replace(" ", "%20"))
 
     while true
         msg = wait(0, port)

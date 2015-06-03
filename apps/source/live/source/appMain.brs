@@ -11,7 +11,7 @@ Sub Main()
     globals = getGlobalAA()
 
     ' set some analytics
-    globals.analytics = Analytics()
+    ' globals.analytics = Analytics()
 
     'initialize theme attributes like titles, logos and overhang color
     initTheme()
@@ -29,7 +29,7 @@ Sub Main()
     showHomeScreen(screen)
 
     ' print "Shutting down"
-    globals.analytics.shutdown()
+    ' globals.analytics.shutdown()
 
 End Sub
 

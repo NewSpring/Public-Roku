@@ -39,6 +39,14 @@ IMPORTFILES = $(foreach f,$(IMPORTS),$(COMMONREL)/$f.brs)
 ##########################################################################
 #$
 
+DEVPASSWORD = newspring
+
+ifdef DEVPASSWORD
+    USERPASS = rokudev:$(DEVPASSWORD)
+else
+    USERPASS = rokudev
+endif
+
 ifndef ZIP_EXCLUDE
   ZIP_EXCLUDE= -x \*.git -x \*.pkg -x storeassets\* -x keys\* -x \*/.\*
 endif
@@ -88,6 +96,15 @@ $(APPNAME): manifest
 	fi
 
 	@echo "*** developer zip  $(APPNAME) complete ***"
+
+install: $(APPNAME)
+	@echo "Installing $(APPNAME) to host $(ROKU_DEV_TARGET)"
+	@if [ "$(HTTPSTATUS)" == " 401" ]; \
+	then \
+		curl --user $(USERPASS) --digest -s -S -F "mysubmit=Install" -F "archive=@$(ZIPREL)/$(APPNAME).zip" -F "passwd=" http://$(ROKU_DEV_TARGET)/plugin_install | grep "<font color" | sed "s/<font color=\"red\">//" | sed "s[</font>[[" ; \
+	else \
+		curl -s -S -F "mysubmit=Install" -F "archive=@$(ZIPREL)/$(APPNAME).zip" -F "passwd=" http://$(ROKU_DEV_TARGET)/plugin_install | grep "<font color" | sed "s/<font color=\"red\">//" | sed "s[</font>[[" ; \
+	fi
 
 install: $(APPNAME)
 	@echo "Installing $(APPNAME) to host $(ROKU_DEV_TARGET)"
