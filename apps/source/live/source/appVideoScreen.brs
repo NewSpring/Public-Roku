@@ -88,34 +88,34 @@ Function showVideoScreen(episode As Object)
             else if msg.isPartialResult()
                 playtime = position - episode.playStart
 
+                playtimePercent = playtime.toStr() + "%"
+
                 if episode.length <> 0 then
                     stoppedAtPct = int(position / episode.length * 100).toStr()
                 else
                     stoppedAtPct = "N/A"
                 end if
 
-                globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Stop", playtime.toStr(), episodeTitle)
+                globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Stop", playtimePercent, episodeTitle)
 
                 ' If user watched more than 95% count video as watched
                 if episode.length <> 0 and position >= int(episode.length * 0.95) then
                     position = 0
 
                     globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Finish", "Finish", episodeTitle)
-                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "Completion - 100%", episodeTitle)
+                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "100%", episodeTitle)
                 end if
             elseif msg.isPlaybackPosition() then
                 position = msg.GetIndex()
 
-                if position > position * 0.25 and reachedFirstQuartile = false then
-                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "Completion - 25%", episodeTitle)
-                end if
+                if position > duration * 0.25 and reachedFirstQuartile = false then
+                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "25%", episodeTitle)
 
-                if position > position * 0.5 and reachedMidpoint = false then
-                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "Completion - 50%", episodeTitle)
-                end if
+                else if position > duration * 0.5 and reachedMidpoint = false then
+                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "50%", episodeTitle)
 
-                if position > position * 0.75 and reachedThirdQuartile = false then
-                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "Completion - 75%", episodeTitle)
+                else if position > duration * 0.75 and reachedThirdQuartile = false then
+                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "75%", episodeTitle)
                 end if
             else
                 print "Unexpected event type: "; msg.GetType()

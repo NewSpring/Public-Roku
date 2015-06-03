@@ -91,19 +91,19 @@ function Analytics_trackEvent(hitType, documentLocation, pageTitle, eventCategor
 
     this = m
 
-    ' if action = "Start" or action = "Continue" then
-    '     this.numWatched = this.numWatched + 1
-    ' end if
+    if eventAction = "Start" or eventAction = "Continue" then
+        this.numWatched = this.numWatched + 1
+    end if
 
-    ' if action = "Finish" then
-    '     this.numFinished = this.numFinished + 1
-    ' end if
+    if eventAction = "Finish" then
+        this.numFinished = this.numFinished + 1
+    end if
 
-    ' RegWrite("sessionDuration", this.sessionTimer.TotalSeconds().toStr(), "analytics")
-    ' RegWrite("sessionNumWatched", this.numWatched.toStr(), "analytics")
-    ' RegWrite("sessionNumFinished", this.numFinished.toStr(), "analytics")
+    RegWrite("sessionDuration", this.sessionTimer.TotalSeconds().toStr(), "analytics")
+    RegWrite("sessionNumWatched", this.numWatched.toStr(), "analytics")
+    RegWrite("sessionNumFinished", this.numFinished.toStr(), "analytics")
 
-    ' this.numEvents = this.numEvents + 1
+    this.numEvents = this.numEvents + 1
 
     ' URL Encoding for documentLocation
     xfer = createObject("roUrlTransfer")
@@ -130,13 +130,15 @@ function Analytics_trackEvent(hitType, documentLocation, pageTitle, eventCategor
 end function
 
 ' Do initial analytics reporting
-function Analytics_startup(itemUrl)
+function Analytics_startup()
 
     this = m
 
     device = createObject("roDeviceInfo")
 
-    this.trackEvent("pageview", itemUrl, "Roku Homescreen", "", "", "")
+    startUrl = "http://10.0.200.114/roku"
+
+    this.trackEvent("pageview", startUrl, "Roku Homescreen", "", "", "")
 
 end function
 

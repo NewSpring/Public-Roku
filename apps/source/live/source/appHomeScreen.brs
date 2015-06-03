@@ -46,7 +46,7 @@ Function showHomeScreen(screen) As Integer
     globals = getGlobalAA()
     globals.analytics = Analytics()
 
-    globals.analytics.startup("http://10.0.200.114/roku")
+    globals.analytics.startup()
 
     screen.Show()
 

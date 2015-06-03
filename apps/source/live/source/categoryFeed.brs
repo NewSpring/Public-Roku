@@ -12,7 +12,7 @@ Function InitCategoryFeedConnection() As Object
 
     conn = CreateObject("roAssociativeArray")
 
-    ' This also must be updated in Home Screen
+    ' This also must be updated in analytics brs
     conn.UrlPrefix   = "http://10.0.200.114/roku"
 
     conn.UrlCategoryFeed = conn.UrlPrefix + "/categories"
