@@ -145,6 +145,8 @@ Function parse_show_feed(xml As Object, feed As Object) As Void
         item.liveStream       = validstr(curShow.live.GetText())
         item.HDBifUrl         = validstr(curShow.hdBifUrl.GetText())
         item.SDBifUrl         = validstr(curShow.sdBifUrl.GetText())
+        item.Series           = validstr(curShow.series.GetText())
+        item.RelativeUrl      = validstr(curShow.relativeUrl.GetText())
         item.StreamFormat = validstr(curShow.streamFormat.GetText())
         if item.StreamFormat = "" then  'set default streamFormat to mp4 if doesn't exist in xml
             item.StreamFormat = "mp4"
@@ -182,7 +184,7 @@ Function parse_show_feed(xml As Object, feed As Object) As Void
 
         'Set Default screen values for items not in feed
         item.HDBranded = true
-        item.IsHD = true
+        ' item.IsHD = true
 
         'media may be at multiple bitrates, so parse an build arrays
         for idx = 0 to 4

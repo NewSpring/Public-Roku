@@ -6,9 +6,16 @@
 
 Sub Main()
 
+    globals = getGlobalAA()
+    
+    ' set some analytics
+    globals.analytics = Analytics()
+    
+    visitorId = GetRandomInt(10)
+    
     'initialize theme attributes like titles, logos and overhang color
     initTheme()
-
+    
     'prepare the screen for display and get ready to begin
     screen=preShowHomeScreen("", "")
     if screen=invalid then
@@ -18,6 +25,9 @@ Sub Main()
 
     'set to go, time to get started
     showHomeScreen(screen)
+
+    ' print "Shutting down"
+    globals.analytics.shutdown()
 
 End Sub
 
@@ -40,8 +50,8 @@ Sub initTheme()
     theme.OverhangSliceSD = "pkg:/images/overhang.background.sd.png"
     theme.OverhangLogoSD  = "pkg:/images/overhang.logo.sd.png"
 
-    theme.OverhangOffsetHD_X = "125"
-    theme.OverhangOffsetHD_Y = "35"
+    theme.OverhangOffsetHD_X = "60"
+    theme.OverhangOffsetHD_Y = "30"
     theme.OverhangSliceHD = "pkg:/images/overhang.background.hd.png"
     theme.OverhangLogoHD  = "pkg:/images/overhang.logo.hd.png"
 
@@ -83,6 +93,18 @@ Sub initTheme()
 
     theme.GridScreenFocusBorderHD       = "pkg:/images/GridScreenFocusBorderHD.png"
     theme.GridScreenFocusBorderSD       = "pkg:/images/GridScreenFocusBorderHD.png"
+    
+    ' Light Up Colfax
+    
+    ' fontReg = CreateObject("roFontRegistry")
+    '   fontReg.Register("https://d3n6tjerleuu41.cloudfront.net/fonts/colfax/medium.eot")
+    '   font = fontReg.Get("Colfax Medium",28,50,true)
+      
+    '   text = {
+    '        Text: "test",
+    '        TextAttrs:{Color:"#303030", Font:font,
+    '        HAlign:"Left", VAlign:"Top", Direction:"LeftToRight"}
+    '      TargetRect:{x:50, y:20, w:700, h:100}}
 
     app.SetTheme(theme)
 

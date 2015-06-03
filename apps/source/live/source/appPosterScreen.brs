@@ -23,6 +23,7 @@ Function preShowPosterScreen(breadA=invalid, breadB=invalid) As Object
 
     screen.SetListStyle("flat-category")
     screen.setAdDisplayMode("flat-square")
+    
     return screen
 
 End Function
@@ -50,6 +51,16 @@ Function showPosterScreen(screen As Object, category As Object) As Integer
     	?"only ";temp.count();" category"
     end if
     screen.SetContentList(getShowsForCategoryItem(category, m.curCategory))
+    
+    globals = getGlobalAA()
+    
+    ' set some analytics
+    globals.analytics = Analytics()
+    
+    pageTitle = category.Title + " - " + category.kids[m.curCategory].Title
+    
+    globals.analytics.trackEvent("pageview", "", category.kids[m.curCategory].feed.Replace("http://10.0.1.7/", ""), "", pageTitle.Replace(" ", "%20"))
+
     screen.Show()
 
     while true

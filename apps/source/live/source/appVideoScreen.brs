@@ -30,6 +30,17 @@ Function showVideoScreen(episode As Object)
 
     'Uncomment his line to dump the contents of the episode to be played
     'PrintAA(episode)
+    
+    globals = getGlobalAA()
+    
+    ' set some analytics
+    globals.analytics = Analytics()
+    
+    episodeUrl   = episode.RelativeUrl + "/watching"
+
+    episodeTitle = "WATCHING %7C " + episode.Series + " - " + episode.Title
+    
+    globals.analytics.trackEvent("pageview", "", episodeUrl, "", episodeTitle.Replace(" ", "%20"))
 
     while true
         msg = wait(0, port)

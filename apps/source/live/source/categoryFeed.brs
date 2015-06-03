@@ -12,7 +12,7 @@ Function InitCategoryFeedConnection() As Object
 
     conn = CreateObject("roAssociativeArray")
 
-    conn.UrlPrefix   = "http://10.0.200.202/roku"
+    conn.UrlPrefix   = "http://10.0.1.7/roku"
     conn.UrlCategoryFeed = conn.UrlPrefix + "/categories"
 
     conn.Timer = CreateObject("roTimespan")
@@ -174,7 +174,7 @@ Function ParseCategoryNode(xml As Object) As dynamic
     for each e in xml.GetBody()
         name = e.GetName()
         if name = "category" then
-            print "category: " + e@title + " [" + e@description + "]"
+            ' print "category: " + e@title + " [" + e@description + "]"
             kid = ParseCategoryNode(e)
             kid.Title = e@title
             kid.Description = e@Description
@@ -183,14 +183,14 @@ Function ParseCategoryNode(xml As Object) As dynamic
             kid.HDPosterURL = xml@hd_img
             o.AddKid(kid)
         elseif name = "categoryLeaf" then
-            print "categoryLeaf: " + e@title + " [" + e@description + "]"
+            ' print "categoryLeaf: " + e@title + " [" + e@description + "]"
             kid = ParseCategoryNode(e)
             kid.Title = e@title
             kid.Description = e@Description
             kid.Feed = e@feed
             o.AddKid(kid)
         elseif name = "specialCategory" then
-            print "specialCategory: " + e@title + " [" + e@description + "]"
+            ' print "specialCategory: " + e@title + " [" + e@description + "]"
             kid = ParseCategoryNode(e)
             kid.Title = e@title
             kid.Description = e@Description
