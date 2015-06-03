@@ -27,6 +27,7 @@ REM   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF 
 REM   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 REM *****************************************************
 
+' Returns the last 6 numbers of the device esn to use as GA visitorId
 function visitorId() as String
 
     serialNumber = GetDeviceESN()
@@ -86,7 +87,7 @@ function Analytics() as Object
 
 end function
 
-function Analytics_trackEvent(hitType, documentLocation, pageTitle)
+function Analytics_trackEvent(hitType, documentLocation, pageTitle, eventCategory, eventAction, eventLabel)
 
     this = m
 
@@ -104,35 +105,38 @@ function Analytics_trackEvent(hitType, documentLocation, pageTitle)
 
     ' this.numEvents = this.numEvents + 1
 
-    url = this.baseUrl
-    ' url = url + "&utms=" + this.numEvents.toStr()
-    ' url = url + "&utmn=" + this._random(1000000000, 9999999999).toStr()
-    ' url = url + "&utmac=" + this.account
-    ' url = url + "&utmt=event"
-    url = url + "&t=" + hitType
-    url = url + "&dl=" + documentLocation.Replace(":", "%3A").Replace("/", "%2F")
-    url = url + "&dt=" + pageTitle
-    ' url = url + "&ec=" + eventCategory
-    ' url = url + "&ea=" + eventAction
-    ' url = url + "&et=" + eventLabel
+    ' URL Encoding for documentLocation
+    xfer = createObject("roUrlTransfer")
 
+    url = this.baseUrl
+    url = url + "&t=" + hitType
+    url = url + "&dl=" + xfer.Escape(documentLocation)
+    url = url + "&dt=" + xfer.Escape(pageTitle)
+
+    if eventCategory <> "" then
+      url = url + "&ec=" + xfer.Escape(eventCategory)
+    end if
+
+    if eventAction <> "" then
+      url = url + "&ea=" + xfer.Escape(eventAction)
+    end if
+
+    if eventLabel <> "" then
+      url = url + "&el=" + xfer.Escape(eventLabel)
+    end if
 
     httpGetWithRetry(url, 2000, 0)
 
 end function
 
 ' Do initial analytics reporting
-function Analytics_startup()
+function Analytics_startup(itemUrl)
 
     this = m
 
     device = createObject("roDeviceInfo")
 
-    ' currentUrl = GetUrl()
-    ' print currentUrl
-    ' print HttpEncode(currentUrl)
-
-    this.trackEvent("pageview", "%2F", "Roku%20Homescreen")
+    this.trackEvent("pageview", itemUrl, "Roku Homescreen", "", "", "")
 
 end function
 
@@ -146,18 +150,30 @@ function Analytics_shutdown()
 end function
 
 ' Format event for request string
-Function _Analytics_formatEvent(hitType, documentLocation, pageTitle) As String
+Function _Analytics_formatEvent(hitType, documentLocation, pageTitle, eventCategory, eventAction, eventLabel) As String
 
     xfer = createObject("roUrlTransfer")
 
     event = "5(" + xfer.Escape(hitType) + "*"
 
-    if label <> invalid then
+    if documentLocation <> invalid then
         event = event + "*" + xfer.Escape(documentLocation)
     end if
 
-    if value <> invalid then
+    if pageTitle <> invalid then
         event = event + ")(" + pageTitle
+    end if
+
+    if eventCategory <> "" then
+      event = event + ")(" + eventCategory
+    end if
+
+    if eventAction <> "" then
+      event = event + ")(" + eventAction
+    end if
+
+    if eventLabel <> "" then
+      event = event + ")(" + xfer.Escape(eventLabel)
     end if
 
     event = event + ")"

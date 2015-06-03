@@ -39,6 +39,7 @@ IMPORTFILES = $(foreach f,$(IMPORTS),$(COMMONREL)/$f.brs)
 ##########################################################################
 #$
 
+ROKU_DEV_TARGET = 10.0.20.78
 DEVPASSWORD = newspring
 
 ifdef DEVPASSWORD
