@@ -36,7 +36,7 @@ End Function
 Function showHomeScreen(screen) As Integer
 
     print "showHomeScreen"
-
+    
     if validateParam(screen, "roPosterScreen", "showHomeScreen") = false return -1
 
     initCategoryList()
@@ -50,24 +50,38 @@ Function showHomeScreen(screen) As Integer
 
     screen.Show()
 
+    timer = CreateObject("roTimespan")
+    next_call_time = 0
+    
     while true
-        msg = wait(0, screen.GetMessagePort())
-        if type(msg) = "roPosterScreenEvent" then
-            print "showHomeScreen | msg = "; msg.GetMessage() " | index = "; msg.GetIndex()
-            if msg.isListFocused() then
-                print "list focused | index = "; msg.GetIndex(); " | category = "; m.curCategory
-            else if msg.isListItemSelected() then
-                print "list item selected | index = "; msg.GetIndex()
-                kid = m.Categories.Kids[msg.GetIndex()]
-                if kid.type = "special_category" then
-                    displaySpecialCategoryScreen()
-                else
-                    displayCategoryPosterScreen(kid)
-                end if
-            else if msg.isScreenClosed() then
-                return -1
-            end if
-        end If
+
+      msg = wait(100, screen.GetMessagePort())
+
+      t = timer.TotalSeconds()
+      if t > next_call_time then
+          next_call_time = t + 60
+          
+          initCategoryList()
+          screen.SetContentList(m.Categories.Kids)
+      end if
+
+      if type(msg) = "roPosterScreenEvent" then
+          print "showHomeScreen | msg = "; msg.GetMessage() " | index = "; msg.GetIndex()
+          if msg.isListFocused() then
+              print "list focused | index = "; msg.GetIndex(); " | category = "; m.curCategory
+          else if msg.isListItemSelected() then
+              print "list item selected | index = "; msg.GetIndex()
+              kid = m.Categories.Kids[msg.GetIndex()]
+              if kid.type = "special_category" then
+                  displaySpecialCategoryScreen()
+              else
+                  displayCategoryPosterScreen(kid)
+              end if
+          else if msg.isScreenClosed() then
+              return -1
+          end if
+      end if
+      
     end while
 
     return 0
