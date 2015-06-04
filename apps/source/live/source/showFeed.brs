@@ -146,7 +146,7 @@ Function parse_show_feed(xml As Object, feed As Object) As Void
         item.HDBifUrl         = validstr(curShow.hdBifUrl.GetText())
         item.SDBifUrl         = validstr(curShow.sdBifUrl.GetText())
         item.Series           = validstr(curShow.series.GetText())
-        item.RelativeUrl      = validstr(curShow.relativeUrl.GetText())
+        item.ItemUrl          = validstr(curShow.itemUrl.GetText())
         item.StreamFormat = validstr(curShow.streamFormat.GetText())
         if item.StreamFormat = "" then  'set default streamFormat to mp4 if doesn't exist in xml
             item.StreamFormat = "mp4"

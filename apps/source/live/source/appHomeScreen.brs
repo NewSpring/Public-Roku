@@ -23,12 +23,6 @@ Function preShowHomeScreen(breadA=invalid, breadB=invalid) As Object
     screen.SetListStyle("flat-category")
     screen.setAdDisplayMode("flat-square")
 
-    ' set some analytics
-    ' globals = getGlobalAA()
-    ' globals.analytics = Analytics()
-
-    ' globals.analytics.startup()
-
     return screen
 
 End Function
@@ -47,6 +41,13 @@ Function showHomeScreen(screen) As Integer
 
     initCategoryList()
     screen.SetContentList(m.Categories.Kids)
+
+    ' set some analytics
+    globals = getGlobalAA()
+    globals.analytics = Analytics()
+
+    globals.analytics.startup()
+
     screen.Show()
 
     while true

@@ -13,6 +13,7 @@
 '** error conditions so it's important to monitor these to
 '** understand what's going on, especially in the case of errors
 '***********************************************************
+
 Function showVideoScreen(episode As Object)
 
     print "showVideoScreen"
@@ -35,14 +36,28 @@ Function showVideoScreen(episode As Object)
 
     globals = getGlobalAA()
 
+    position = 0
+    episode.playStart = position
+
+    duration = episode.length
+
+    ' Prevent events being recorded again after resume
+    reachedFirstQuartile = (position > duration * 0.25)
+    reachedMidpoint = (position > duration * 0.5)
+    reachedThirdQuartile = (position > duration * 0.75)
+
     ' set some analytics
-    ' globals.analytics = Analytics()
+    globals.analytics = Analytics()
 
-    ' episodeUrl   = episode.RelativeUrl + "/watching"
+    episodeUrl   = episode.ItemUrl + "/watching"
 
-    ' episodeTitle = "WATCHING %7C " + episode.Series + " - " + episode.Title
+    if episode.Series = "" then
+      episodeTitle = "WATCHING | " + episode.Title
+    else
+      episodeTitle = "WATCHING | " + episode.Series + " - " + episode.Title
+    endif
 
-    ' globals.analytics.trackEvent("pageview", episodeUrl, episodeTitle.Replace(" ", "%20"))
+    globals.analytics.trackEvent("pageview", episodeUrl, episodeTitle, "", "", "")
 
     while true
         msg = wait(0, port)
@@ -54,13 +69,54 @@ Function showVideoScreen(episode As Object)
                 exit while
             elseif msg.isRequestFailed()
                 print "Video request failure: "; msg.GetIndex(); " " msg.GetData()
+                globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Error", "Video Reqest Failure", episodeTitle)
             elseif msg.isStatusMessage()
                 print "Video status: "; msg.GetIndex(); " " msg.GetData()
             elseif msg.isButtonPressed()
                 print "Button pressed: "; msg.GetIndex(); " " msg.GetData()
+            else if msg.isStreamStarted()
+                globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Started", "Started", episodeTitle)
+            else if msg.isFullResult()
+                position = 0
+
+                playtime = position - episode.playStart
+
+                globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Finish", "Finish", episodeTitle)
+                globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "Completion - 100%", episodeTitle)
+
+                exit while
+            else if msg.isPartialResult()
+                playtime = position - episode.playStart
+
+                playtimePercent = playtime.toStr() + "%"
+
+                if episode.length <> 0 then
+                    stoppedAtPct = int(position / episode.length * 100).toStr()
+                else
+                    stoppedAtPct = "N/A"
+                end if
+
+                globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Stop", playtimePercent, episodeTitle)
+
+                ' If user watched more than 95% count video as watched
+                if episode.length <> 0 and position >= int(episode.length * 0.95) then
+                    position = 0
+
+                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Finish", "Finish", episodeTitle)
+                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "100%", episodeTitle)
+                end if
             elseif msg.isPlaybackPosition() then
-                nowpos = msg.GetIndex()
-                RegWrite(episode.ContentId, nowpos.toStr())
+                position = msg.GetIndex()
+
+                if position > duration * 0.25 and reachedFirstQuartile = false then
+                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "25%", episodeTitle)
+
+                else if position > duration * 0.5 and reachedMidpoint = false then
+                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "50%", episodeTitle)
+
+                else if position > duration * 0.75 and reachedThirdQuartile = false then
+                    globals.analytics.trackEvent("event", episodeUrl, episodeTitle, "Completion", "75%", episodeTitle)
+                end if
             else
                 print "Unexpected event type: "; msg.GetType()
             end if

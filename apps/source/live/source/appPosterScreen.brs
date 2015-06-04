@@ -56,17 +56,7 @@ Function showPosterScreen(screen As Object, category As Object) As Integer
     end if
     screen.SetContentList(getShowsForCategoryItem(category, m.curCategory))
 
-    globals = getGlobalAA()
-
-    ' set some analytics
-    ' globals.analytics = Analytics()
-
-    ' pageTitle = category.Title + " - " + category.kids[m.curCategory].Title
-
-    ' globals.analytics.trackEvent("pageview", category.kids[m.curCategory].relativeUrl, pageTitle.Replace(" ", "%20"))
-
     screen.Show()
-
 
     while true
         msg = wait(0, screen.GetMessagePort())
@@ -149,6 +139,15 @@ Function getShowsForCategoryItem(category As Object, item As Integer) As Object
 
     conn = InitShowFeedConnection(category.kids[item])
     showList = conn.LoadShowFeed(conn)
+
+    ' set some analytics
+    globals = getGlobalAA()
+    globals.analytics = Analytics()
+
+    pageTitle = category.Title + " - " + category.kids[item].Title
+
+    globals.analytics.trackEvent("pageview", category.kids[item].feed, pageTitle, "", "", "")
+
     return showList
 
 End Function

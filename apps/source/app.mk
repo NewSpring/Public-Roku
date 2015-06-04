@@ -39,14 +39,6 @@ IMPORTFILES = $(foreach f,$(IMPORTS),$(COMMONREL)/$f.brs)
 ##########################################################################
 #$
 
-DEVPASSWORD = newspring
-
-ifdef DEVPASSWORD
-    USERPASS = rokudev:$(DEVPASSWORD)
-else
-    USERPASS = rokudev
-endif
-
 ifndef ZIP_EXCLUDE
   ZIP_EXCLUDE= -x \*.git -x \*.pkg -x storeassets\* -x keys\* -x \*/.\*
 endif
