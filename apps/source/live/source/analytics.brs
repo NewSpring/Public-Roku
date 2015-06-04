@@ -136,7 +136,7 @@ function Analytics_startup()
 
     device = createObject("roDeviceInfo")
 
-    startUrl = "http://10.0.200.114/roku"
+    startUrl = "https://newspring.cc/roku"
 
     this.trackEvent("pageview", startUrl, "Roku Homescreen", "", "", "")
 
