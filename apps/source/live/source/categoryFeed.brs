@@ -12,7 +12,7 @@ Function InitCategoryFeedConnection() As Object
 
     conn = CreateObject("roAssociativeArray")
 
-    conn.UrlPrefix   = "http://10.0.20.150/roku"
+    conn.UrlPrefix   = "https://newspring.cc/roku"
 
     conn.UrlCategoryFeed = conn.UrlPrefix + "/categories"
 
