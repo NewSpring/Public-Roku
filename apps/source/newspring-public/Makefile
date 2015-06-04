@@ -16,7 +16,7 @@
 #    Set in your this variable in your shell startup (e.g. .bashrc)
 ##########################################################################
 APPNAME = newspring-public
-VERSION = 2.0
+VERSION = 1.0
 
 ZIP_EXCLUDE= -x xml/* -x artwork/*
 
