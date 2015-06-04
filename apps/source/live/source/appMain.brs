@@ -58,8 +58,8 @@ Sub initTheme()
     theme.OverhangLogoHD  = "pkg:/images/overhang.logo.hd.png"
 
     theme.FilterBannerActiveColor     = "#6BAC43"
-    theme.FilterBannerInactiveColor   = "#858585"
-    theme.FilterBannerSideColor       = "#858585"
+    theme.FilterBannerInactiveColor   = "#656565"
+    theme.FilterBannerSideColor       = "#656565"
 
     theme.FilterBannerActiveHD        = "pkg:/images/transparent.png"
     theme.FilterBannerActiveSD        = "pkg:/images/transparent.png"
@@ -70,24 +70,24 @@ Sub initTheme()
     theme.FilterBannerSliceSD         = "pkg:/images/filterbg.png"
 
     theme.BackgroundColor             = "#F9F9F9"
-    theme.GridScreenRetrievingColor   = "#858585"
+    theme.GridScreenRetrievingColor   = "#656565"
 
     theme.ButtonHighlightColor        = "#6BAC43"
 
     theme.PosterScreenLine1Text       = "#303030"
-    theme.PosterScreenLine2Text       = "#858585"
+    theme.PosterScreenLine2Text       = "#656565"
 
     theme.SpringboardActorColor         = "#303030"
 
-    theme.SpringboardRuntimeColor       = "#858585"
-    theme.SpringboardSynopsisColor      = "#858585"
+    theme.SpringboardRuntimeColor       = "#656565"
+    theme.SpringboardSynopsisColor      = "#656565"
     theme.SpringboardTitleText          = "#303030"
 
-    theme.ButtonHighlightColor          = "#858585"
+    theme.ButtonHighlightColor          = "#656565"
     theme.ButtonMenuHighlightText       = "#6BAC43"
-    theme.ButtonMenuNormalOverlayText   = "#858585"
-    theme.ButtonMenuNormalText          = "#858585"
-    theme.ButtonNormalColor             = "#858585"
+    theme.ButtonMenuNormalOverlayText   = "#656565"
+    theme.ButtonMenuNormalText          = "#656565"
+    theme.ButtonNormalColor             = "#656565"
 
     ' Poster Active Image
     theme.ListItemHighlightHD           = "pkg:/images/transparent.png"
