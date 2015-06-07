@@ -59,7 +59,6 @@ Function init_show_feed_item() As Object
     o.Synopsis         = ""
     o.Genre            = ""
     o.Live             = ""
-    o.PlayStart        = ""
     o.Runtime          = ""
     o.ReleaseDate      = ""
     o.StreamQualities  = CreateObject("roArray", 5, true)
@@ -143,8 +142,7 @@ Function parse_show_feed(xml As Object, feed As Object) As Void
         item.releaseDate      = validstr(curShow.releaseDate.GetText())
         item.Runtime          = validstr(curShow.runtime.GetText())
         item.Week             = validstr(curShow.week.GetText())
-        item.LiveStream       = validstr(curShow.live.GetText())
-        item.PlayStart        = validstr(curShow.playStart.GetText())
+        item.liveStream       = validstr(curShow.live.GetText())
         item.HDBifUrl         = validstr(curShow.hdBifUrl.GetText())
         item.SDBifUrl         = validstr(curShow.sdBifUrl.GetText())
         item.Series           = validstr(curShow.series.GetText())
@@ -172,16 +170,9 @@ Function parse_show_feed(xml As Object, feed As Object) As Void
 
         item.HDPosterUrl           = item.hdImg
         item.SDPosterUrl           = item.sdImg
+        item.Live                  = item.liveStream
 
         item.ReleaseDate           = item.releaseDate
-        
-        if item.LiveStream <> "" then
-          
-          item.Live                = true
-          item.PlayStart           = 1800
-          item.StreamStartTimeOffset = 1800
-          
-        endif
 
         item.Length = strtoi(item.Runtime)
         item.Categories = CreateObject("roArray", 5, true)
@@ -193,7 +184,7 @@ Function parse_show_feed(xml As Object, feed As Object) As Void
 
         'Set Default screen values for items not in feed
         item.HDBranded = true
-        item.IsHD = true
+        ' item.IsHD = true
 
         'media may be at multiple bitrates, so parse an build arrays
         for idx = 0 to 4

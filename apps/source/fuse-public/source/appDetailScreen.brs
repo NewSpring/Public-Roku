@@ -15,7 +15,7 @@ Function preShowDetailScreen(breadA=invalid, breadB=invalid) As Object
 
     screen.setAdDisplayMode("flat-square")
     screen.SetStaticRatingEnabled(FALSE)
-    
+
     return screen
 
 End Function
@@ -68,20 +68,11 @@ Function showDetailScreen(screen As Object, showList As Object, showIndex as Int
                     if PlayStart <> invalid then
                         showList[showIndex].PlayStart = PlayStart.ToInt()
                     endif
-                    if showList[showIndex].LiveStream = "true" then
-                      showList[showIndex].PlayStart = 1800
-                    else
-                      showList[showIndex].PlayStart = 0
-                    endif
                     showVideoScreen(showList[showIndex])
                     refreshShowDetail(screen,showList,showIndex)
                 endif
                 if msg.GetIndex() = 2
-                    if showList[showIndex].LiveStream = "true" then
-                      showList[showIndex].PlayStart = 1800
-                    else
-                      showList[showIndex].PlayStart = 0
-                    endif
+                    showList[showIndex].PlayStart = 0
                     showVideoScreen(showList[showIndex])
                     refreshShowDetail(screen,showList,showIndex)
                 endif
@@ -118,8 +109,12 @@ Function refreshShowDetail(screen As Object, showList As Object, showIndex as In
     'PrintAA(show)
 
     screen.ClearButtons()
-    screen.AddButton(1, "Play")
-    
+    if regread(show.contentid) <> invalid and regread(show.contentid).toint() >=30 then
+    screen.AddButton(1, "Resume playing")
+    screen.AddButton(2, "Play from beginning")
+    else
+    screen.addbutton(2,"Play")
+    end if
     screen.SetContent(show)
 
     globals = getGlobalAA()

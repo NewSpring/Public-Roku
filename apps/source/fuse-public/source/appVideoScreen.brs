@@ -29,7 +29,6 @@ Function showVideoScreen(episode As Object)
 
     screen.SetPositionNotificationPeriod(30)
     screen.SetContent(episode)
-    
     screen.Show()
 
     'Uncomment his line to dump the contents of the episode to be played
@@ -37,13 +36,8 @@ Function showVideoScreen(episode As Object)
 
     globals = getGlobalAA()
 
-    if episode.PlayStart then
-      position = 3600
-    else
-      position = 0
-    endif
-    
-    episode.PlayStart = position
+    position = 0
+    episode.playStart = position
 
     duration = episode.length
 
