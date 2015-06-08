@@ -118,7 +118,17 @@ Function refreshShowDetail(screen As Object, showList As Object, showIndex as In
     'PrintAA(show)
 
     screen.ClearButtons()
-    screen.AddButton(1, "Play")
+    
+    if showList[showIndex].LiveStream = "true" then
+      screen.AddButton(1, "Play")
+    else
+      if regread(show.contentid) <> invalid and regread(show.contentid).toint() >=30 then
+        screen.AddButton(1, "Resume playing")
+        screen.AddButton(2, "Play from beginning")
+      else
+        screen.addbutton(2,"Play")
+      end if
+    endif
     
     screen.SetContent(show)
 
