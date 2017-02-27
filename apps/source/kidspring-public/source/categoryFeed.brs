@@ -13,7 +13,7 @@ Function InitCategoryFeedConnection() As Object
     conn = CreateObject("roAssociativeArray")
 
     ' This also must be updated in analytics brs
-    conn.UrlPrefix   = "http://newspring.dev.10.0.200.164.xip.io/roku"
+    conn.UrlPrefix   = "http://newspring.cc/roku"
 
     conn.UrlCategoryFeed = conn.UrlPrefix + "/kidspring"
 
