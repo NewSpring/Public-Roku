@@ -39,12 +39,12 @@
 #define BUTTON_DOWN                 "Down"
 #define BUTTON_UP                   "Up"
 #define BUTTON_BACK                 "Back"
-#define BUTTON_INSTANTREPLAY	    "InstantReplay"
-#define BUTTON_INFO		    "Info"
-#define BUTTON_BACKSPACE	    "Backspace"
-#define BUTTON_SEARCH		    "Search"
-#define BUTTON_Enter		    "Enter"
-#define BUTTON_LIT		    "Lit_"
+#define BUTTON_INSTANTREPLAY	      "InstantReplay"
+#define BUTTON_INFO		              "Info"
+#define BUTTON_BACKSPACE	          "Backspace"
+#define BUTTON_SEARCH		            "Search"
+#define BUTTON_Enter		            "Enter"
+#define BUTTON_LIT		              "Lit_"
 
 
 char buffer[RESPONSE_BUFFER_LEN];
