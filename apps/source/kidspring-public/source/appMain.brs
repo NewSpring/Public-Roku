@@ -53,7 +53,7 @@ Function GetEpisodeFeed(apiUrl as String, targetId)
     responseXML = ParseXML(rsp) 'Roku includes it's own XML parsing method
 
     responseXML = responseXML.GetChildElements()
-    responseArray = responseXML.GetChildElements()
+    ' responseArray = responseXML.GetChildElements()
 
     result = [] 'Store all results inside an array. Each element represents a row inside our RowList stored as an Associative Array (line 63)
 
